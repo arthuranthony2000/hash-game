@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int [] plays = {-1,-1,-1,-1,-1,-1,-1,-1,-1};
@@ -19,6 +22,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button [] positions = new Button[9];
 
     private Button restart_game;
+    private Button undo_play;
+
+    private List<Integer> history_positions;
 
     private int number_of_plays;
     private boolean player_of_the_time;
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         restart_game = findViewById(R.id.restart_game);
+        undo_play = findViewById(R.id.undo_play);
 
         for(int i=0;i < positions.length; i++){
             int identifier_position = getResources().getIdentifier("btn"+i, "id", getPackageName());
@@ -38,8 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         number_of_plays = 1;
         player_of_the_time = true;
+        history_positions = new ArrayList<>();
 
         restart_game.setOnClickListener(view -> restart()); // Restart the game after press the restart button
+        undo_play.setOnClickListener(view -> undo());
     }
 
     private boolean won(){
@@ -61,12 +70,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             positions[i].setText("");
             plays[i] = -1;
         }
+        history_positions.clear();
+    }
+
+    private void undo(){
+        if(history_positions.size() != 0){
+            number_of_plays--;
+            player_of_the_time = !player_of_the_time;
+            positions[history_positions.get(history_positions.size() - 1)].setText("");
+            plays[history_positions.get(history_positions.size() - 1)] = -1;
+            history_positions.remove(history_positions.size() - 1);
+        }
     }
 
     @Override
     public void onClick(View view){
         if(((Button)view).getText().toString().equals("")) { // If the position has not been selected
             int position_btn = Integer.parseInt(view.getResources().getResourceEntryName(view.getId()).substring(3,4));
+            history_positions.add(position_btn);
             if(player_of_the_time){ // If the X player of the time, mark in the button the text X
                 ((Button)view).setText("X");
                 plays[position_btn] = 0;

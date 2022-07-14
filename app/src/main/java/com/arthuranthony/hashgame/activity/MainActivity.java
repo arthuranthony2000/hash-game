@@ -45,18 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         undo_play.setOnClickListener(view -> undo());
     }
 
-    private boolean won(){
-        for(int [] play : Game.getWinnerPlays()){
-            if(hash_game.getPlays()[play[0]]==hash_game.getPlays()[play[1]] &&
-                    hash_game.getPlays()[play[1]] == hash_game.getPlays()[play[2]] &&
-                    hash_game.getPlays()[play[0]]!= -1
-            ){
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void restart(){
         hash_game.setNumber_of_plays(1);
         hash_game.setPlayer_of_the_time(true);
@@ -68,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hash_game.setFinished_game(false);
     }
 
+    // Undo Move Command
     private void undo(){
         if(hash_game.getHistory_positions().size() != 0){
             hash_game.setNumber_of_plays(hash_game.getNumber_of_plays() - 1);
@@ -81,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // Move Command
     @Override
     public void onClick(View view){
         if(((Button)view).getText().toString().equals("") && !hash_game.isFinished_game()) { // If the position has not been selected
@@ -94,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 hash_game.setPlay(position_btn, 1);
             }
 
-            if(won()){
+            if(hash_game.won()){
                 hash_game.setFinished_game(true);
                 if(hash_game.isPlayer_of_the_time()){
                     Toast.makeText(view.getContext(), "Play X won the game", Toast.LENGTH_SHORT).show();

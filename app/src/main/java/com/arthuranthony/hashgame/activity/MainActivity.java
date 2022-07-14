@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Model entities
     private Game hash_game;
 
-    // View Components
+    // Invokers
     private Button [] positions = new Button[9];
     private Button restart_game;
     private Button undo_play;

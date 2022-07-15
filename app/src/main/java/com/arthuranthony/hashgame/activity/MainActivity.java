@@ -13,6 +13,7 @@ import com.arthuranthony.hashgame.model.Game;
 import java.util.ArrayList;
 import java.util.List;
 
+// Observer
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Model entities
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         restart_game = findViewById(R.id.restart_game);
         undo_play = findViewById(R.id.undo_play);
 
-        // Observer comportament
         restart_game.setOnClickListener(view -> restart()); // Restart the game after press the restart button
         undo_play.setOnClickListener(view -> undo());
     }
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ((Button)view).setText("O");
                 hash_game.setPlay(position_btn, 1);
             }
+
 
             if(hash_game.won()){
                 hash_game.setFinished_game(true);

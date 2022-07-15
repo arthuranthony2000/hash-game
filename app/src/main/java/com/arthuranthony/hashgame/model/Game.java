@@ -3,6 +3,7 @@ package com.arthuranthony.hashgame.model;
 import java.util.ArrayList;
 import java.util.List;
 
+// Observable
 public class Game {
     private int [] plays = {-1,-1,-1,-1,-1,-1,-1,-1,-1};
     private static int [][] winner_plays = {
